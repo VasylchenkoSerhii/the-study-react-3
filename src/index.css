@@ -174,9 +174,9 @@ img {
   z-index: 1200;
 }
 
-.Modal {
-  max-width: calc(80vw);
-  max-height: calc(80vh);
+.Modal-img {
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
 }
 
 /*

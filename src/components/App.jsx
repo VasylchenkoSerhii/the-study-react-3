@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
@@ -9,7 +10,7 @@ import * as API from '../services/api';
 export default class App extends Component {
 
   state = {
-    images: [],
+    images: null,
     query: "",
     page: 1,
     isLoading: false,
@@ -42,7 +43,11 @@ export default class App extends Component {
     this.setState({ isLoading: true });
     try {
       const images = await API.getImages(values, page);
-      this.setState({ images: images.hits, query: values, page: 1, isLoading: false });
+      if (images.hits.length === 0) {
+        this.setState({ isLoading: false });
+        return;
+      };
+      this.setState({ images: images, query: values, page: 1, isLoading: false });
     } catch (error) {
       console.log(error);
     };
@@ -56,20 +61,24 @@ export default class App extends Component {
 
   openModal = (largeImageURL, tags) => {
     this.setState({ isModalOpen: true, modalContent: {tags, largeImageURL} });
-    console.log(this.state.modalContent)
+  };
+
+  closeModal = () => {
+    this.setState({ isModalOpen: false });
   };
 
   render() {
     const { images, isLoading, isModalOpen, modalContent } = this.state;
-    const { handleSubmit, handleClick } = this;
-
+    const { handleSubmit, handleClick, openModal, closeModal } = this;
     return (
       <>
         <Searchbar onSubmit={handleSubmit} />
-        {images.length !== 0 && <ImageGallery openModal={this.openModal} images={images} />}
-        {images.length !== 0 && <Button onClick={handleClick} />}
+        {images && <ImageGallery openModal={openModal} images={images} />}
+        {images && <Button onClick={handleClick} />}
         {isLoading && <Loader />}
-        {isModalOpen && <Modal><img src={modalContent.largeImageURL} alt={modalContent.tags} /></Modal>}
+        {isModalOpen && <Modal onClose={closeModal} >
+          <img className="Modal-img" src={modalContent.largeImageURL} alt={modalContent.tags} />
+        </Modal>}
       </>
     );
   }

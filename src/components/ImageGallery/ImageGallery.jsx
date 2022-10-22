@@ -5,7 +5,7 @@ export default function ImageGallery({ images, openModal }) {
     return (
         <ul className="ImageGallery">
             <ImageGalleryItem
-                items={images}
+                items={images.hits}
                 openModal={openModal}
             />
         </ul>
