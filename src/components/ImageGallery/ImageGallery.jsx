@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import * as API from '../../services/api';
 import Loader from 'components/Loader/Loader';
-import Button from 'components/Button/Button';
 
 export default class ImageGallery extends Component {
     state = {
         images: [],
-        page: 1,
         status: "idle",
     };
 
@@ -25,9 +23,9 @@ export default class ImageGallery extends Component {
             };
         };
 
-        if (prevState.page !== page) {
+        if (prevProps.page !== this.props.page) {
             try {
-                const items = await API.getImages(prevImages, page); 
+                const items = await API.getImages(prevImages, this.props.page); 
                 this.setState(prev => ({
                     images: [...prev.images, ...items.hits],
                 }));
@@ -35,12 +33,6 @@ export default class ImageGallery extends Component {
                 console.log(error);
             };
         };
-    };
-
-    handleClick = () => {
-        this.setState(prevState => ({
-        page: prevState.page + 1
-        }));
     };
     
     render() {
@@ -57,15 +49,12 @@ export default class ImageGallery extends Component {
 
         if (status === "resolved") {
             return (
-                <>
                     <ul className="ImageGallery">
                         <ImageGalleryItem
                         items={images}
                         openModal={openModal}
                         />
                     </ul>
-                    <Button onClick={this.handleClick}/>
-                </>
             )
         }
         return (
