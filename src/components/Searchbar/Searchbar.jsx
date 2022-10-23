@@ -3,15 +3,15 @@ import { Formik, Form, Field } from "formik";
 import { MdSearch } from "react-icons/md";
 
 export default function Searchbar({ onSubmit }) {
-    const handleSubmit = async (values, actions) => {
-        await onSubmit(values.images);
+    const handleSubmit = (values, actions) => {
+        onSubmit(values.query);
         actions.resetForm();
     };
 
     return (
         <header className='Searchbar'>
             <Formik
-                initialValues={{ images: "" }}
+                initialValues={{ query: "" }}
                 onSubmit={handleSubmit}
             >
                 <Form className='SearchForm'>
@@ -23,7 +23,7 @@ export default function Searchbar({ onSubmit }) {
                     </button>
                     <Field
                         className="SearchForm-input"
-                        name="images"
+                        name="query"
                         type="text"
                         placeholder="Search images and photos"
                     />
