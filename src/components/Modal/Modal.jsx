@@ -5,9 +5,9 @@ const modalRoot = document.getElementById("modal-root");
 
 export default class Modal extends Component {
     render() {
-        const { onClose, children } = this.props;
+        const { toggleModal, children } = this.props;
         return createPortal(
-            <div onClick={onClose} className="Overlay">
+            <div onClick={toggleModal} className="Overlay">
                 <div className="Modal">
                     {children}
                 </div>

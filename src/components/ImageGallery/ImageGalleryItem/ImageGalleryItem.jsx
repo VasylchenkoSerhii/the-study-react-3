@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ImageGalleryItem({ items, openModal}) {
+export default function ImageGalleryItem({ items, toggleModal}) {
     return (
         items.map(({ id, webformatURL, tags, largeImageURL }) => (
             <li className="ImageGalleryItem" key={id}>
@@ -8,7 +8,7 @@ export default function ImageGalleryItem({ items, openModal}) {
                     className="ImageGalleryItem-image"
                     src={webformatURL}
                     alt={tags}
-                    onClick={()=> openModal(largeImageURL, tags)}
+                    onClick={()=> toggleModal(largeImageURL, tags)}
                 />
             </li>
         ))

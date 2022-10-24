@@ -1,9 +1,14 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Formik, Form, Field } from "formik";
 import { MdSearch } from "react-icons/md";
 
 export default function Searchbar({ onSubmit }) {
     const handleSubmit = (values, actions) => {
+        if (values.query === "") {
+            toast(`Введіть тематику пошуку фото`);
+            return;
+        }
         onSubmit(values.query);
         actions.resetForm();
     };
