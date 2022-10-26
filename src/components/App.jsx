@@ -46,7 +46,9 @@ export default class App extends Component {
       const images = await API.getImages(query, page);
       if (images.hits.length === 0) {
         toast(`По вашому запросу не знайдено жодного фото`);
-        this.setState({ isLoading: false });
+        this.setState({
+          isLoading: false
+        });
         return;
       }
       this.setState({ images: images.hits, query, page: 1, isLoading: false });
